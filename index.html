@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Will You Be My Valentine, Rylie? 💖</title>
+
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, #ffffff, #ffe6eb);
+  overflow: hidden;
+}
+
+.card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 28px;
+  max-width: 420px;
+  width: calc(100% - 32px);
+  text-align: center;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.15);
+  position: relative;
+  z-index: 2;
+}
+
+h1 { color: #d90429; }
+h2 { color: #ef233c; }
+p { color: #444; }
+
+img.hero {
+  width: 100%;
+  border-radius: 18px;
+  margin: 14px 0;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.yes {
+  background: #ef233c;
+  color: #fff;
+}
+
+.no {
+  background: #adb5bd;
+  color: #fff;
+}
+
+.confetti {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heart {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  transform: rotate(45deg);
+  animation: fall linear infinite;
+}
+
+.heart.red { background: #ef233c; }
+.heart.white { background: #ffffff; }
+
+.heart::before,
+.heart::after {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.heart::before { top: -8px; left: 0; }
+.heart::after { left: -8px; top: 0; }
+
+@keyframes fall {
+  0% { transform: translateY(-10vh) rotate(45deg); opacity: 1; }
+  100% { transform: translateY(110vh) rotate(45deg); opacity: .9; }
+}
+</style>
+</head>
+
+<body>
+<div class="confetti" id="confetti"></div>
+
+<div class="card" id="card">
+  <h1>Hey Rylie Kathryn Smith 💕</h1>
+  <p>I have a very important question…</p>
+
+  <img class="hero" src="{img1_b64}" />
+
+  <h2>Will you be my Valentine? 💌</h2>
+  <p id="question"></p>
+
+  <div class="buttons">
+    <button class="yes" id="yesBtn" onclick="sayYes()">Yes 💖</button>
+    <button class="no" id="noBtn" onclick="sayNo()">No 🙈</button>
+  </div>
+</div>
+
+<script>
+let noCount = 0;
+
+const questions = [
+  "Are you suuure? 🥺",
+  "Like… REALLY sure? 😅",
+  "What if I ask nicely? 💕",
+  "I’m running out of patience 😤",
+  "That YES button looks comfy 👀",
+  "It’s getting kinda huge now 😏",
+  "Okay… this is your sign 💘"
+];
+
+function sayNo() {
+  noCount++;
+
+  document.getElementById("question").textContent =
+    questions[Math.min(noCount - 1, questions.length - 1)];
+
+  const yesBtn = document.getElementById("yesBtn");
+  const scale = 1 + noCount * 0.25;
+  yesBtn.style.transform = `scale(${scale})`;
+  yesBtn.style.boxShadow = "0 20px 35px rgba(239,35,60,.4)";
+
+  const noBtn = document.getElementById("noBtn");
+  noBtn.style.transform = "translateX(" + (Math.random()*20-10) + "px)";
+}
+
+function sayYes() {
+  startConfetti();
+  document.getElementById("card").innerHTML = `
+    <h1>YAY!!! 💘</h1>
+    <p>You just made me the happiest person ever.</p>
+    <img class="hero" src="{img2_b64}" />
+    <h2>Happy Valentine’s Day, Rylie ❤️</h2>
+    <p>I can’t wait to celebrate together 🥰</p>
+
+    <p style="margin-top: 18px; font-weight: 500; color: #d90429;">
+      Thank you for letting me be your valentine.<br>
+      We have a date for February 14th at Chilli’s in Columbus.<br>
+      Dress comfy/casual, bring an empty tummy and that adorable little smile.<br><br>
+      <strong>P.S. Don’t eat yellow snow ❄️😂</strong>
+    </p>
+  `;
+}
+
+function startConfetti() {
+  const confetti = document.getElementById("confetti");
+  confetti.innerHTML = "";
+
+  for (let i = 0; i < 140; i++) {
+    const h = document.createElement("div");
+    h.className = "heart " + (Math.random() > 0.5 ? "red" : "white");
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.animationDuration = (2.5 + Math.random() * 2) + "s";
+    confetti.appendChild(h);
+  }
+}
+</script>
+</body>
+</html>
